@@ -10,14 +10,12 @@
     "test": "codeceptjs run-workers 2 --features",
     "test:smoke": "codeceptjs run --features --grep @smoke",
     "test:regression": "codeceptjs run --features --grep @regression",
-    "test:critical": "codeceptjs run --features --grep @critical",
-    "test:ci": "codeceptjs run --features --reporter min",
     "test:debug": "codeceptjs run --features --steps --debug",
     "report:generate": "allure generate allure-results --clean -o allure-report",
     "report:open": "allure open allure-report",
     "report:serve": "allure serve allure-results",
-    "lint": "eslint step_definitions pages support --ext .js",
-    "lint:fix": "eslint step_definitions pages support --ext .js --fix",
+    "lint": "eslint step_definitions pages --ext .js",
+    "lint:fix": "eslint step_definitions pages --ext .js --fix",
     "clean": "rm -rf allure-results allure-report output"
   },
   "dependencies": {
@@ -28,6 +26,7 @@
   "devDependencies": {
     "allure-codeceptjs": "^3.4.3",
     "allure-commandline": "^2.30.0",
+    "axe-playwright": "^2.0.3",
     "eslint": "^8.57.0",
     "eslint-plugin-codeceptjs": "^1.3.0"
   }
