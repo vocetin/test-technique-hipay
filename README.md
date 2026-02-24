@@ -42,28 +42,24 @@ Trois scénarios E2E couvrent les parcours utilisateur à plus forte valeur busi
 
 **Ce qui est testé :**
 - Le carousel est visible au chargement
-- Le slide actif affiche le bon contenu ("Device fingerprint" par défaut)
-- Le bouton "suivant" avance correctement vers le slide suivant
-- Le bouton "précédent" devient actif après navigation et revient au slide initial
+- La navigation avant/arrière fonctionne correctement
 
 #### Scénario 3 — Accessibilité WCAG 2.1
-**Pourquoi ?** Une page de conversion doit être accessible à tous les utilisateurs, y compris ceux utilisant des technologies d'assistance.
+**Pourquoi ?** Une page de conversion doit être accessible à tous les utilisateurs.
 
 **Ce qui est testé :**
-- Audit axe-core (WCAG 2.1 AA) sur la page complète — aucune violation critique ou sérieuse de structure
-- Audit axe-core scoped sur le formulaire HubSpot — champs correctement labellisés
-- Navigation clavier sur les boutons du carousel — éléments focusables au clavier
+- Audit axe-core (WCAG 2.1 AA) — aucune violation critique ou sérieuse de structure
 
-> **Note** : La page HiPay présente des violations `image-alt` / `svg-img-alt` (images sans texte alternatif) qui sont exclues de l'audit structurel car elles relèvent du contenu éditorial et non de la structure interactive testée.
+> **Note** : La page présente des violations `image-alt` / `svg-img-alt` (images sans texte alternatif). Ces violations de contenu éditorial sont documentées et exclues de l'audit structurel.
 
 ### Stratégie de test
 
 **Risk-Based Testing** — les tests sont priorisés par impact business :
 
-| Priorité | Zone | Raison |
+| Tag | Zone | Quand exécuter |
 |---|---|---|
-| `@smoke` | CTA → formulaire | Parcours de conversion principal, gate rapide sur chaque commit |
-| `@regression` | Formulaire complet + carousel + accessibilité | Couverture fonctionnelle et WCAG complète |
+| `@smoke` | CTA → formulaire | Chaque commit, gate PR |
+| `@regression` | Formulaire complet + carousel + accessibilité | Push sur main/develop |
 
 **Hors périmètre** (page externe sans accès aux données internes) :
 - Tests de soumission du formulaire (production)
@@ -93,19 +89,15 @@ npx playwright install --with-deps chromium
 |---|---|
 | `npm test` | Lance tous les tests (2 workers en parallèle) |
 | `npm run test:smoke` | Lance uniquement les tests `@smoke` |
-| `npm run test:regression` | Lance les tests `@regression` (fonctionnel + accessibilité) |
+| `npm run test:regression` | Lance les tests `@regression` |
 | `npm run test:debug` | Lance avec sortie détaillée pas-à-pas |
 | `npm run lint` | Vérifie le code avec ESLint |
-| `npm run lint:fix` | Corrige automatiquement les erreurs ESLint |
 | `npm run clean` | Supprime les artefacts générés |
 
 ### Rapports Allure
 
 ```bash
-# Générer le rapport HTML depuis les résultats
 npm run report:generate
-
-# Ouvrir le rapport dans le navigateur
 npm run report:open
 ```
 
@@ -119,34 +111,23 @@ npm run report:open
 test-technique-hipay/
 ├── .github/
 │   └── workflows/
-│       └── e2e.yml                       # Pipeline CI GitHub Actions
+│       └── e2e.yml
 ├── features/
-│   ├── cta_contact_form.feature          # Scénario 1 : CTA → formulaire de contact
-│   ├── carousel.feature                  # Scénario 2 : Navigation carousel Swiper.js
-│   └── accessibility.feature             # Scénario 3 : Accessibilité WCAG 2.1
+│   ├── cta_contact_form.feature
+│   ├── carousel.feature
+│   └── accessibility.feature
 ├── step_definitions/
-│   ├── common_steps.js                   # Steps partagés (Background, navigation)
-│   ├── cta_form_steps.js                 # Steps formulaire de contact
-│   ├── carousel_steps.js                 # Steps carousel
-│   └── accessibility_steps.js            # Steps audit axe-core + clavier
+│   ├── common_steps.js
+│   ├── cta_form_steps.js
+│   ├── carousel_steps.js
+│   └── accessibility_steps.js
 ├── pages/
-│   ├── FraudManagementPage.js            # Page Object principal
-│   └── CookieConsentPage.js              # Gestion bandeau RGPD
-├── .eslintrc.json                        # Configuration ESLint
-├── .gitignore
-├── codecept.conf.js                      # Configuration CodeceptJS + Playwright + Allure
+│   ├── FraudManagementPage.js
+│   └── CookieConsentPage.js
+├── codecept.conf.js
 ├── package.json
 └── README.md
 ```
-
----
-
-## Stratégie de tags
-
-| Tag | Périmètre | Quand exécuter |
-|---|---|---|
-| `@smoke` | Parcours CTA → formulaire — suite la plus rapide | Chaque commit, gate PR |
-| `@regression` | Couverture complète (formulaire + carousel + accessibilité) | Push sur main/develop |
 
 ---
 
@@ -154,15 +135,12 @@ test-technique-hipay/
 
 ```
 Lint → Smoke Tests → Regression → Allure Report
- ↓          ↓              ↓             ↓
-Fast      PR gate     main/develop    Always
-gate      ~30s        push only        runs
 ```
 
 1. **lint** — ESLint, bloque si le code est invalide
 2. **e2e-smoke** — `@smoke` sur chaque push et PR
-3. **e2e-regression** — `@regression` uniquement sur push `main`/`develop`
-4. **allure-report** — Rapport HTML consolidé (toujours exécuté, même en cas d'échec)
+3. **e2e-regression** — `@regression` sur push `main`/`develop`
+4. **allure-report** — Rapport HTML consolidé (toujours exécuté)
 
 ---
 
@@ -175,6 +153,5 @@ gate      ~30s        push only        runs
 | **HubSpot `input[name]`** | Les attributs `name` HubSpot sont stables contrairement aux classes CSS générées |
 | **`waitForElement(hsForm, 15)`** | Le formulaire HubSpot est injecté de façon asynchrone par le SDK |
 | **Carousel `aria-label`** | Les boutons Swiper exposent des `aria-label` stables ("slider next" / "slider previous") |
-| **axe-core via `configureAxe`** | Permet de désactiver des règles spécifiques (images éditoriales) sans altérer l'audit structurel |
+| **axe-core + `configureAxe`** | Audit WCAG 2.1 AA avec exclusion des violations de contenu éditorial tiers |
 | **`retryFailedStep: 2`** | Latence réseau variable sur hipay.com (CDN, géo-routing) |
-| **ESLint v8 + `.eslintrc.json`** | Compatibilité maximale avec `eslint-plugin-codeceptjs` |
