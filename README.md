@@ -89,7 +89,7 @@ npx playwright install --with-deps chromium
 |---|---|
 | `npm test` | Lance tous les tests (2 workers en parallèle) |
 | `npm run test:smoke` | Lance uniquement les tests `@smoke` |
-| `npm run test:regression` | Lance les tests `@regression` |
+| `npm run test:regression` | Lance les tests `@regression` sur Chrome, Chrome mobile et Safari |
 | `npm run test:debug` | Lance avec sortie détaillée pas-à-pas |
 | `npm run lint` | Vérifie le code avec ESLint |
 | `npm run clean` | Supprime les artefacts générés |
@@ -139,7 +139,7 @@ Lint → Smoke Tests → Regression → Allure Report
 
 1. **lint** — ESLint, bloque si le code est invalide
 2. **e2e-smoke** — `@smoke` sur chaque push et PR
-3. **e2e-regression** — `@regression` sur push `main`/`develop`
+3. **e2e-regression** — `@regression` sur Chrome + Chrome mobile + Safari (push `main`/`develop`)
 4. **allure-report** — Rapport HTML consolidé (toujours exécuté)
 
 ---

@@ -7,9 +7,9 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "test": "codeceptjs run-workers 2 --features",
+    "test": "codeceptjs run --features",
     "test:smoke": "codeceptjs run --features --grep @smoke",
-    "test:regression": "codeceptjs run --features --grep @regression",
+    "test:regression": "codeceptjs run-multiple chrome mobile safari --features --grep @regression",
     "test:debug": "codeceptjs run --features --steps --debug",
     "report:generate": "allure generate allure-results --clean -o allure-report",
     "report:open": "allure open allure-report",

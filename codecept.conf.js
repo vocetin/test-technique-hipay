@@ -1,6 +1,5 @@
 const { setHeadlessWhen, setCommonPlugins } = require('@codeceptjs/configure');
 
-// Run headless in CI environments
 setHeadlessWhen(process.env.CI);
 setCommonPlugins();
 
@@ -30,6 +29,23 @@ exports.config = {
       waitForNavigation: 'networkidle',
       timeout: 30000,
       fullPageScreenshots: true,
+    },
+  },
+
+  // Cross-browser profiles used by `run-multiple`
+  multiple: {
+    chrome: {
+      // inherits default Playwright config (chromium desktop)
+    },
+    mobile: {
+      Playwright: {
+        windowSize: '390x844',
+      },
+    },
+    safari: {
+      Playwright: {
+        browser: 'webkit',
+      },
     },
   },
 
