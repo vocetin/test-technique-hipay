@@ -1,0 +1,34 @@
+{
+  "name": "hipay-fraud-management-e2e",
+  "version": "1.0.0",
+  "description": "CodeceptJS + Playwright E2E tests for HiPay Fraud Management page",
+  "private": true,
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "test": "codeceptjs run-workers 2 --features",
+    "test:smoke": "codeceptjs run --features --grep @smoke",
+    "test:regression": "codeceptjs run --features --grep @regression",
+    "test:critical": "codeceptjs run --features --grep @critical",
+    "test:ci": "codeceptjs run --features --reporter min",
+    "test:debug": "codeceptjs run --features --steps --debug",
+    "report:generate": "allure generate allure-results --clean -o allure-report",
+    "report:open": "allure open allure-report",
+    "report:serve": "allure serve allure-results",
+    "lint": "eslint step_definitions pages support --ext .js",
+    "lint:fix": "eslint step_definitions pages support --ext .js --fix",
+    "clean": "rm -rf allure-results allure-report output"
+  },
+  "dependencies": {
+    "@codeceptjs/configure": "^0.10.0",
+    "codeceptjs": "^3.6.4",
+    "playwright": "^1.44.0"
+  },
+  "devDependencies": {
+    "allure-codeceptjs": "^3.4.3",
+    "allure-commandline": "^2.30.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-codeceptjs": "^1.3.0"
+  }
+}
