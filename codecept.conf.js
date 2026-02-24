@@ -26,7 +26,7 @@ exports.config = {
       browser: 'chromium',
       show: false,
       windowSize: '1440x900',
-      waitForNavigation: 'networkidle',
+      waitForNavigation: 'domcontentloaded',
       timeout: 30000,
       fullPageScreenshots: true,
     },
