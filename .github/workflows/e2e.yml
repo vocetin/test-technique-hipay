@@ -2,9 +2,9 @@ name: E2E Tests — HiPay Fraud Management
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, test-technique]
   pull_request:
-    branches: [main, develop]
+    branches: [main, develop, test-technique]
   workflow_dispatch:
     inputs:
       tags:
