@@ -10,6 +10,11 @@
   "globals": {
     "inject": "readonly",
     "actor": "readonly",
+    "codeceptjs": "readonly",
+    "Before": "readonly",
+    "After": "readonly",
+    "BeforeSuite": "readonly",
+    "AfterSuite": "readonly",
     "Given": "readonly",
     "When": "readonly",
     "Then": "readonly",
