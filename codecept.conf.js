@@ -32,27 +32,16 @@ exports.config = {
     },
   },
 
-  // Cross-browser profiles used by `run-multiple`
   multiple: {
-    chrome: {
-      plugins: {
-        allure: { outputDir: './allure-results/chrome' },
-      },
-    },
+    chrome: {},
     mobile: {
       Playwright: {
         windowSize: '390x844',
-      },
-      plugins: {
-        allure: { outputDir: './allure-results/mobile' },
       },
     },
     safari: {
       Playwright: {
         browser: 'webkit',
-      },
-      plugins: {
-        allure: { outputDir: './allure-results/safari' },
       },
     },
   },
