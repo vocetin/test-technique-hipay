@@ -11,6 +11,8 @@
     "test:smoke": "codeceptjs run --features --grep @smoke",
     "test:regression": "codeceptjs run-multiple chrome mobile safari --features --grep @regression",
     "test:headed": "codeceptjs run --features --override '{\"helpers\":{\"Playwright\":{\"show\":true}}}'",
+    "test:headed:mobile": "codeceptjs run-multiple mobile --features --override '{\"helpers\":{\"Playwright\":{\"show\":true}}}'",
+    "test:headed:safari": "codeceptjs run-multiple safari --features --override '{\"helpers\":{\"Playwright\":{\"show\":true}}}'",
     "test:debug": "codeceptjs run --features --steps --debug",
     "report:generate": "allure generate allure-results --clean -o allure-report",
     "report:open": "allure open allure-report",

@@ -45,7 +45,7 @@ Trois scénarios E2E couvrent les parcours utilisateur à plus forte valeur busi
 - La navigation avant/arrière fonctionne correctement
 
 #### Scénario 3 — Accessibilité WCAG 2.1
-**Pourquoi ?** Une page de conversion doit être accessible à tous les utilisateurs.
+**Pourquoi ?** La page de conversion doit être accessible à tous les utilisateurs.
 
 **Ce qui est testé :**
 - Audit axe-core (WCAG 2.1 AA) — aucune violation critique ou sérieuse de structure
