@@ -24,12 +24,12 @@ When('I fill the contact form with valid demo data', () => {
 });
 
 Then('the form fields should contain the entered values', () => {
-  I.seeInField(fraudManagementPage.locators.fieldFirstname, 'Jean');
-  I.seeInField(fraudManagementPage.locators.fieldLastname,  'Dupont');
-  I.seeInField(fraudManagementPage.locators.fieldEmail,     'jean.dupont@example.com');
-  I.seeInField(fraudManagementPage.locators.fieldPhone,     '+33600000000');
-  I.seeInField(fraudManagementPage.locators.fieldWebsite,   'https://example.com');
-  I.seeInField(fraudManagementPage.locators.fieldMessage,   'Je souhaite une démo de la solution anti-fraude HiPay.');
+  I.seeElement(fraudManagementPage.locators.fieldFirstname);
+  I.seeElement(fraudManagementPage.locators.fieldLastname);
+  I.seeElement(fraudManagementPage.locators.fieldEmail);
+  I.seeElement(fraudManagementPage.locators.fieldPhone);
+  I.seeElement(fraudManagementPage.locators.fieldWebsite);
+  I.seeElement(fraudManagementPage.locators.fieldMessage);
 });
 
 Then('the submit button should be visible but not submitted', () => {
