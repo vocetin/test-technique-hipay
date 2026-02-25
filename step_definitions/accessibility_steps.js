@@ -4,15 +4,15 @@ const { injectAxe, checkA11y } = require('axe-playwright');
 const KNOWN_VIOLATIONS = ['image-alt', 'svg-img-alt'];
 
 Then('the page should have no critical accessibility violations', async () => {
-  let knownFound = [];
-
   await I.usePlaywrightTo('run axe audit', async ({ page }) => {
     await injectAxe(page);
     await checkA11y(page, null, {
       runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa'] },
       includedImpacts: ['critical', 'serious'],
       violationCallback: (violations) => {
-        knownFound = violations.filter(v => KNOWN_VIOLATIONS.includes(v.id));
+        violations.filter(v => KNOWN_VIOLATIONS.includes(v.id)).forEach(v => {
+          console.warn(`⚠️ [KNOWN] ${v.id} (${v.impact}): ${v.description} — ${v.nodes.length} node(s)`);
+        });
         const blocking = violations.filter(v => !KNOWN_VIOLATIONS.includes(v.id));
         if (blocking.length) {
           throw new Error(
@@ -22,9 +22,5 @@ Then('the page should have no critical accessibility violations', async () => {
         }
       },
     }, true);
-  });
-
-  knownFound.forEach(v => {
-    I.say(`⚠️ [KNOWN] ${v.id} (${v.impact}): ${v.description} — ${v.nodes.length} node(s)`);
   });
 });
