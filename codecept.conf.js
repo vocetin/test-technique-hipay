@@ -35,16 +35,24 @@ exports.config = {
   // Cross-browser profiles used by `run-multiple`
   multiple: {
     chrome: {
-      // inherits default Playwright config (chromium desktop)
+      plugins: {
+        allure: { outputDir: './allure-results/chrome' },
+      },
     },
     mobile: {
       Playwright: {
         windowSize: '390x844',
       },
+      plugins: {
+        allure: { outputDir: './allure-results/mobile' },
+      },
     },
     safari: {
       Playwright: {
         browser: 'webkit',
+      },
+      plugins: {
+        allure: { outputDir: './allure-results/safari' },
       },
     },
   },
