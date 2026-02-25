@@ -64,7 +64,6 @@ Trois scénarios E2E couvrent les parcours utilisateur à plus forte valeur busi
 **Hors périmètre** (page externe sans accès aux données internes) :
 - Tests de soumission du formulaire (production)
 - Tests de performance / Lighthouse
-- Tests cross-browser complets
 
 ---
 
@@ -96,12 +95,15 @@ npx playwright install --with-deps chromium
 
 ### Rapports Allure
 
+Le rapport est publié automatiquement sur **GitHub Pages** après chaque run CI :
+https://vocetin.github.io/test-technique-hipay/
+
+Pour générer en local (nécessite Java ≥ 17) :
+
 ```bash
 npm run report:generate
 npm run report:open
 ```
-
-> **Note** : `allure-commandline` est un outil Java. `JAVA_HOME` doit être configuré.
 
 ---
 
@@ -134,13 +136,14 @@ test-technique-hipay/
 ## Pipeline CI (GitHub Actions)
 
 ```
-Lint → Smoke Tests → Regression → Allure Report
+Lint → Smoke Tests → Regression → Allure Report → GitHub Pages
 ```
 
 1. **lint** — ESLint, bloque si le code est invalide
-2. **e2e-smoke** — `@smoke` sur chaque push et PR
-3. **e2e-regression** — `@regression` sur Chrome + Chrome mobile + Safari (push `main`/`develop`)
+2. **e2e-smoke** — `@smoke` sur chaque push et PR (Chrome)
+3. **e2e-regression** — `@regression` sur Chrome desktop + Chrome mobile (390px) + Safari/WebKit
 4. **allure-report** — Rapport HTML consolidé (toujours exécuté)
+5. **deploy-pages** — Publication du rapport sur GitHub Pages
 
 ---
 
@@ -153,5 +156,15 @@ Lint → Smoke Tests → Regression → Allure Report
 | **HubSpot `input[name]`** | Les attributs `name` HubSpot sont stables contrairement aux classes CSS générées |
 | **`waitForElement(hsForm, 15)`** | Le formulaire HubSpot est injecté de façon asynchrone par le SDK |
 | **Carousel `aria-label`** | Les boutons Swiper exposent des `aria-label` stables ("slider next" / "slider previous") |
+| **`waitForText` après clic carousel** | Attend intelligemment que le texte du slide soit visible plutôt qu'un délai fixe |
 | **axe-core + `configureAxe`** | Audit WCAG 2.1 AA avec exclusion des violations de contenu éditorial tiers |
 | **`retryFailedStep: 2`** | Latence réseau variable sur hipay.com (CDN, géo-routing) |
+
+---
+
+## Git
+
+```bash
+git add -A && git commit -m "ton message" && git push
+```
+

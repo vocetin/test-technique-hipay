@@ -6,17 +6,15 @@ Then('the carousel should be visible', () => {
 });
 
 Then('the active carousel slide should show {string}', (text) => {
-  I.see(text, fraudManagementPage.locators.activeSlide);
+  I.waitForText(text, 5, fraudManagementPage.locators.activeSlide);
 });
 
 When('I click the next slide button', () => {
   I.click(fraudManagementPage.locators.nextSlideButton);
-  I.wait(0.5);
 });
 
 When('I click the previous slide button', () => {
   I.click(fraudManagementPage.locators.prevSlideButton);
-  I.wait(0.5);
 });
 
 Then('the previous slide button should be enabled', () => {
