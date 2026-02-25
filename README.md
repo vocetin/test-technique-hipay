@@ -69,6 +69,7 @@ Trois scénarios E2E couvrent les parcours utilisateur à plus forte valeur busi
 
 ## Partie 2 — Automatisation
 
+
 ### Prérequis
 
 - **Node.js ≥ 18**
